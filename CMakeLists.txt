@@ -11,12 +11,12 @@ set(SIBLING_SEARCH 0)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
 
 enable_testing()
-add_subdirectory(opm-common)
+add_subdirectory(opm-common  EXCLUDE_FROM_ALL)
 
-add_subdirectory(opm-parser)
+add_subdirectory(opm-parser  EXCLUDE_FROM_ALL)
 add_dependencies(opmparser ecl)
 
-add_subdirectory(opm-output)
+add_subdirectory(opm-output EXCLUDE_FROM_ALL)
 add_dependencies(opmoutput opmparser)
 
 add_subdirectory(opm-material)
@@ -32,7 +32,7 @@ add_subdirectory(opm-material)
 
 
 
-add_subdirectory(opm-grid)
+add_subdirectory(opm-grid  EXCLUDE_FROM_ALL)
 add_dependencies(opmgrid opmparser)
 # # # To not build a shitload of unrelated "tests" in ewoms unless requested
 set(BUILD_TESTING 0)
@@ -44,11 +44,11 @@ set(ADD_DISABLED_CTESTS 0)
 # set(USE_QUADMATH 0)
 
 #eworms do not make a target
-add_subdirectory(ewoms)
+add_subdirectory(ewoms  EXCLUDE_FROM_ALL)
 #ewoms is not a target use an executable to get dependencies
 add_dependencies(ebos opmgrid)
 # # set(BUILD_TESTING 1) 
 add_subdirectory(opm-simulators)
-add_dependencies(opmsimulators opmgrid)
+add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
 # # add_subdirectory(opm-upscaling)
 # # add_dependencies(opmupscaling opmoutput opmgrid)
