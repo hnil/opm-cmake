@@ -3,7 +3,6 @@ opm-parser
 opm-material
 opm-grid
 opm-output
-opm-core
 ewoms
 opm-simulators
-opm-upscaling
+opm-testing

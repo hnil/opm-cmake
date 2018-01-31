@@ -6,11 +6,13 @@ foreach(TARGET opm-common opm-parser opm-output opm-material opm-grid
                ewoms opm-simulators opm-upscaling)
   set(${TARGET}_DIR ${CMAKE_BINARY_DIR}/${TARGET})
 endforeach()
-
+set(BUILD_TESTING 0)
+#set(BUILD_EXAMPLES 0)
+set(ADD_DISABLED_CTESTS 0)
 set(SIBLING_SEARCH 0)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
 
-enable_testing()
+#enable_testing()
 add_subdirectory(opm-common  EXCLUDE_FROM_ALL)
 
 add_subdirectory(opm-parser  EXCLUDE_FROM_ALL)
@@ -35,20 +37,24 @@ add_subdirectory(opm-material)
 add_subdirectory(opm-grid  EXCLUDE_FROM_ALL)
 add_dependencies(opmgrid opmparser)
 # # # To not build a shitload of unrelated "tests" in ewoms unless requested
-set(BUILD_TESTING 0)
+
 
 # # # To not add disabled tests to the ctest list.. Another andreas quirk
-set(ADD_DISABLED_CTESTS 0)
+
 
 # # # Nope. Quadmath make everything run like molassis
 # set(USE_QUADMATH 0)
 
 #eworms do not make a target
-add_subdirectory(ewoms  EXCLUDE_FROM_ALL)
+#add_subdirectory(ewoms  EXCLUDE_FROM_ALL)
+add_subdirectory(ewoms)
 #ewoms is not a target use an executable to get dependencies
 add_dependencies(ebos opmgrid)
 # # set(BUILD_TESTING 1) 
 add_subdirectory(opm-simulators)
 add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
+
+add_subdirectory(opm-testing)
+add_dependencies(flow_test opmgrid opmoutput opmcommon)
 # # add_subdirectory(opm-upscaling)
 # # add_dependencies(opmupscaling opmoutput opmgrid)
