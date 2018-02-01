@@ -56,6 +56,6 @@ add_subdirectory(opm-simulators  EXCLUDE_FROM_ALL)
 add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
 
 add_subdirectory(opm-testing)
-add_dependencies(flow_test opmgrid opmoutput opmcommon)# opmsimulators)
+add_dependencies(flow_test opmgrid opmoutput opmcommon opmsimulators)
 # # add_subdirectory(opm-upscaling)
 # # add_dependencies(opmupscaling opmoutput opmgrid)
