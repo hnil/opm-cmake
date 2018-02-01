@@ -7,10 +7,11 @@ foreach(TARGET opm-common opm-parser opm-output opm-material opm-grid
   set(${TARGET}_DIR ${CMAKE_BINARY_DIR}/${TARGET})
 endforeach()
 set(BUILD_TESTING 0)
-#set(BUILD_EXAMPLES 0)
+set(BUILD_EXAMPLES 1)
 set(ADD_DISABLED_CTESTS 0)
 set(SIBLING_SEARCH 0)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare -Wno-deprecated-declarations ")
 
 #enable_testing()
 add_subdirectory(opm-common  EXCLUDE_FROM_ALL)
@@ -21,7 +22,7 @@ add_dependencies(opmparser ecl)
 add_subdirectory(opm-output EXCLUDE_FROM_ALL)
 add_dependencies(opmoutput opmparser)
 
-add_subdirectory(opm-material)
+add_subdirectory(opm-material EXCLUDE_FROM_ALL)
 # opmmaterial not make target
 #add_dependencies(opmmaterial opmcommon)#opmparser 
 #foreach(TARGET test_blackoilfluidstate test_eclblackoilfluidsystem
@@ -46,15 +47,15 @@ add_dependencies(opmgrid opmparser)
 # set(USE_QUADMATH 0)
 
 #eworms do not make a target
-#add_subdirectory(ewoms  EXCLUDE_FROM_ALL)
-add_subdirectory(ewoms)
+add_subdirectory(ewoms EXCLUDE_FROM_ALL)
+#add_subdirectory(ewoms)
 #ewoms is not a target use an executable to get dependencies
-add_dependencies(ebos opmgrid)
+#add_dependencies(ebos opmgrid opmoutput)
 # # set(BUILD_TESTING 1) 
-add_subdirectory(opm-simulators)
+add_subdirectory(opm-simulators  EXCLUDE_FROM_ALL)
 add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
 
 add_subdirectory(opm-testing)
-add_dependencies(flow_test opmgrid opmoutput opmcommon)
+add_dependencies(flow_test opmgrid opmoutput opmcommon)# opmsimulators)
 # # add_subdirectory(opm-upscaling)
 # # add_dependencies(opmupscaling opmoutput opmgrid)
