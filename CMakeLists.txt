@@ -12,7 +12,9 @@ set(ADD_DISABLED_CTESTS 0)
 set(SIBLING_SEARCH 0)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare -Wno-deprecated-declarations ")
-
+#set(CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH} /home/hnil/lib/dune-2.5.1")
+#set(DUNE_ROOT "/home/hnil/lib/dune-2.5.1" CACHE STRING "Dune core modules")
+#set(dune-common_ROOT "//home/hnil/lib/dune-2.5.1/share/dune-common" CACHE STRING "Dune common modules")
 #enable_testing()
 add_subdirectory(opm-common  EXCLUDE_FROM_ALL)
 
@@ -21,6 +23,9 @@ add_dependencies(opmparser ecl)
 
 add_subdirectory(opm-output EXCLUDE_FROM_ALL)
 add_dependencies(opmoutput opmparser)
+
+#add_subdirectory(libecl EXCLUDE_FROM_ALL)
+
 
 add_subdirectory(opm-material EXCLUDE_FROM_ALL)
 # opmmaterial not make target
@@ -57,5 +62,6 @@ add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
 
 add_subdirectory(opm-testing)
 add_dependencies(flow_test opmgrid opmoutput opmcommon opmsimulators)
+add_dependencies(flow_test2 opmgrid opmoutput opmcommon)
 # # add_subdirectory(opm-upscaling)
 # # add_dependencies(opmupscaling opmoutput opmgrid)
