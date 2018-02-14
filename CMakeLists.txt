@@ -1,5 +1,5 @@
 project(opm)
-option(DEV_BUILD "only include needed" ON )
+option(DEV_BUILD "only include needed" OFF )
 cmake_minimum_required(VERSION 2.8)
 #cmake_policy(SET CMP0024 OLD)#cgiykd be removed
 foreach(TARGET opm-common opm-parser opm-output opm-material opm-grid
@@ -52,16 +52,21 @@ add_dependencies(opmgrid opmparser)
 # set(USE_QUADMATH 0)
 
 #eworms do not make a target
-add_subdirectory(ewoms EXCLUDE_FROM_ALL)
+if(DEV_BUILD)
+    add_subdirectory(ewoms EXCLUDE_FROM_ALL)
+else()
+    add_subdirectory(ewoms)
+endif()
 #add_subdirectory(ewoms)
 #ewoms is not a target use an executable to get dependencies
 #add_dependencies(ebos opmgrid opmoutput)
 # # set(BUILD_TESTING 1) 
-add_subdirectory(opm-simulators  EXCLUDE_FROM_ALL)
+#add_subdirectory(opm-simulators  EXCLUDE_FROM_ALL)
+add_subdirectory(opm-simulators)
 add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
 
 add_subdirectory(opm-testing)
 add_dependencies(flow_test opmgrid opmoutput opmcommon opmsimulators)
-add_dependencies(flow_test2 opmgrid opmoutput opmcommon)
+add_dependencies(flow_test2 opmgrid opmoutput opmcommon opmsimulators)
 # # add_subdirectory(opm-upscaling)
 # # add_dependencies(opmupscaling opmoutput opmgrid)
