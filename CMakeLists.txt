@@ -1,5 +1,5 @@
 project(opm)
-option(DEV_BUILD "only include needed" OFF )
+option(DEV_BUILD "only include needed" ON)
 cmake_minimum_required(VERSION 2.8)
 #cmake_policy(SET CMP0024 OLD)#cgiykd be removed
 foreach(TARGET opm-common opm-parser opm-output opm-material opm-grid
@@ -8,6 +8,10 @@ foreach(TARGET opm-common opm-parser opm-output opm-material opm-grid
 endforeach()
 set(BUILD_TESTING 0)
 set(BUILD_EXAMPLES 1)
+set(CURTEST_ALWAYS_ENABLE 0)
+set(SKIP_CUR_TEST 1)
+set(CURTEST_NO_COMPILE 1)
+
 set(ADD_DISABLED_CTESTS 0)
 set(SIBLING_SEARCH 0)
 set_property(GLOBAL PROPERTY ALLOW_DUPLICATE_CUSTOM_TARGETS 1)
@@ -19,7 +23,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-sign-compare -Wno-deprecated-declar
 add_subdirectory(opm-common  EXCLUDE_FROM_ALL)
 
 add_subdirectory(opm-parser  EXCLUDE_FROM_ALL)
-add_dependencies(opmparser ecl)
+add_dependencies(opmparser ecl opmcommon)
 
 add_subdirectory(opm-output EXCLUDE_FROM_ALL)
 add_dependencies(opmoutput opmparser)
@@ -28,6 +32,7 @@ add_dependencies(opmoutput opmparser)
 
 
 add_subdirectory(opm-material EXCLUDE_FROM_ALL)
+add_dependencies(opm-material_prepare opmparser)
 # opmmaterial not make target
 #add_dependencies(opmmaterial opmcommon)#opmparser 
 #foreach(TARGET test_blackoilfluidstate test_eclblackoilfluidsystem
@@ -57,13 +62,16 @@ if(DEV_BUILD)
 else()
     add_subdirectory(ewoms)
 endif()
+add_dependencies(ewoms_prepare opmgrid opmoutput)
 #add_subdirectory(ewoms)
 #ewoms is not a target use an executable to get dependencies
 #add_dependencies(ebos opmgrid opmoutput)
 # # set(BUILD_TESTING 1) 
 #add_subdirectory(opm-simulators  EXCLUDE_FROM_ALL)
+
 add_subdirectory(opm-simulators)
-add_dependencies(opmsimulators opmgrid opmoutput opmcommon)
+add_dependencies(opmsimulators opmgrid)
+
 
 add_subdirectory(opm-testing)
 add_dependencies(flow_test opmgrid opmoutput opmcommon opmsimulators)
