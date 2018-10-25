@@ -1,8 +1,6 @@
 opm-common
-opm-parser
 opm-material
 opm-grid
-opm-output
 ewoms
 opm-simulators
-opm-testing
+

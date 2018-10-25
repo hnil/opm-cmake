@@ -1,10 +1,10 @@
-for repo in opm-common opm-parser opm-output opm-material opm-grid opm-core ewoms opm-simulators opm-upscaling
+for repo in opm-common opm-material opm-grid ewoms opm-simulators 
 do
     cd "${repo}"
     git remote set-url origin git@github.com:hnil/"${repo}.git"
     #git remote set-url 
     #git remote add upstream https://github.com/OPM/"${repo}.git"
-    git remote set-url upstream https://github.com/OPM/"${repo}.git"
+    #git remote set-url upstream https://github.com/OPM/"${repo}.git"
     #git remote set-url origin https://github.com/hnil/"${repo}.git"
     cd ..
 done
